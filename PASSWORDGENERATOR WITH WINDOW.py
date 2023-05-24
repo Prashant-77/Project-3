@@ -1,36 +1,44 @@
 import random
 import tkinter as tk
-from tkinter import messagebox
 
-def check_guess():
-    user = int(entry.get())
-    if user == number:
-        messagebox.showinfo("Result", f"Hurray!!\nYou guessed the number right. It's {number}")
-        window.quit()
-    else:
-        messagebox.showinfo("Result", f"Your guess is incorrect.\nThe number is {number}")
+def generate_password():
+    passlen = int(passlen_entry.get())
+    s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
+    password = "".join(random.sample(s, passlen))
+    password_label.config(text=password)
 
-number = random.randint(1, 10)
+def reset_values():
+    passlen_entry.delete(0, tk.END)
+    password_label.config(text="")
 
+# Create the main window
 window = tk.Tk()
-window.title("Made By Prashant Prakash")
-window.geometry("500x200")  # Set the window size
+window.title("Password Generator")
+window.geometry("500x200")
 
-# Top watermark
-top_watermark = tk.Label(window, text="Number Guess Game", font=("Arial", 20, "bold"))
-top_watermark.pack(pady=10)
+# Create and place the input label and entry
+passlen_label = tk.Label(window, text="Enter the length of the password:")
+passlen_label.pack()
+passlen_entry = tk.Entry(window)
+passlen_entry.pack()
 
-label = tk.Label(window, text="Guess the number (1-10):")
-label.pack()
+# Create and place the generate button
+generate_button = tk.Button(window, text="Generate Password", command=generate_password)
+generate_button.pack()
 
-entry = tk.Entry(window)
-entry.pack()
+# Create and place the reset button
+reset_button = tk.Button(window, text="Reset", command=reset_values)
+reset_button.pack()
 
-button = tk.Button(window, text="Check", command=check_guess)
-button.pack()
+# Create and place the password label
+password_label = tk.Label(window, text="")
+password_label.pack()
 
-# Bottom watermark
-bottom_watermark = tk.Label(window, text="Made by Prashant Prakash", font=("Arial", 10, "bold"))
-bottom_watermark.pack(pady=10)
+# Create and place the watermark label
+window.update()  # Update window to get the actual height
+window_height = window.winfo_height()
+watermark_label = tk.Label(window, text="Made By Prashant Prakash", font=("Arial", 10, "bold"))
+watermark_label.place(x=170, y=window_height - 40)
 
+# Start the main event loop
 window.mainloop()
